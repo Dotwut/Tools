@@ -1,0 +1,66 @@
+2023-01-11 12:33:19,129 (WARNING): Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f548bf86620>: Failed to establish a new connection: [Errno 111] Connection refused')': /rnp/releases.txt
+2023-01-11 12:33:19,142 (WARNING): Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f548bf84b20>: Failed to establish a new connection: [Errno 111] Connection refused')': /rnp/releases.txt
+2023-01-11 12:33:19,153 (WARNING): Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f548bf84c40>: Failed to establish a new connection: [Errno 111] Connection refused')': /rnp/releases.txt
+2023-01-11 12:33:19,164 (WARNING): Failed to check for updates.
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 174, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 96, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 86, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 704, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 399, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 239, in request
+    super(HTTPConnection, self).request(method, url, body=body, headers=headers)
+  File "/usr/lib/python3.10/http/client.py", line 1282, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1328, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1277, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.10/http/client.py", line 1037, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.10/http/client.py", line 975, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 205, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 186, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f548bf85750>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/jason/Tools/jexboss/_updates.py", line 103, in check_updates
+    r = gl_http_pool.request('GET', url, redirect=False, headers=header)
+  File "/usr/lib/python3/dist-packages/urllib3/request.py", line 74, in request
+    return self.request_encode_url(
+  File "/usr/lib/python3/dist-packages/urllib3/request.py", line 96, in request_encode_url
+    return self.urlopen(method, url, **extra_kw)
+  File "/usr/lib/python3/dist-packages/urllib3/poolmanager.py", line 376, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 816, in urlopen
+    return self.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 816, in urlopen
+    return self.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 816, in urlopen
+    return self.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 788, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 592, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='joaomatosf.com', port=80): Max retries exceeded with url: /rnp/releases.txt (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f548bf85750>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2023-01-11 12:33:19,169 (INFO): Checking Host: http://jacobtheboss.box:8080
+2023-01-11 12:33:20,099 (INFO): Server http://jacobtheboss.box:8080: VULNERABLE
+2023-01-11 12:33:20,483 (INFO): Server http://jacobtheboss.box:8080: VULNERABLE
+2023-01-11 12:33:20,675 (INFO): Server http://jacobtheboss.box:8080: VULNERABLE
+2023-01-11 12:33:41,595 (INFO): Server http://jacobtheboss.box:8080 exploited!
+2023-01-11 12:51:43,439 (INFO): Interrupting execution ...
