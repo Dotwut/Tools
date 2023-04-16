@@ -3,8 +3,8 @@ alias pysrv='python3 -m http.server 80'
 alias thmvpn='sudo openvpn /home/jason/Downloads/jhart1992.ovpn'
 alias smbsrv='sudo impacket-smbserver smb /home/jason/Tools -smb2support'
 alias sshforward="echo 'Local Port Forward:\n ssh -L [LOCAL_IP:]LOCAL_PORT:DESTINATION:DESTINATION_PORT [USER@]SSH_SERVER\nRemote Port Forward:\n ssh -R [REMOTE:]REMOTE_PORT:DESTINATION:DESTINATION_PORT [USER@]SSH_SERVER\nDynamic Port Forward:\n ssh -D [LOCAL_IP:]LOCAL_PORT [USER@]SSH_SERVER'"
-alias gosmall="gobuster dir --wordlist=/usr/share/wordlists/dirb/common.txt -u"
-alias gobig="gobuster dir --wordlist=/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u"
+alias gosmall="gobuster dir -t 50 --wordlist=/usr/share/wordlists/dirb/common.txt -u"
+alias gobig="gobuster dir -t 50 --wordlist=/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u"
 alias gosub="gobuster vhost -t 50 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt --append-domain -u"
 
 alias .1='cd ..' # see .. function
