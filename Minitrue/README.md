@@ -26,14 +26,18 @@ However, this package is no longer in the Kali repos, so we have to install it m
 - Download the libicu63 package using any of the listed mirrors
 - Verify the package SHA256 checksum
 - Install the package
+- Install libssl dependencies
 
 ```sh
+# Download libicu63
+kali@kali:~$ wget http://ftp.us.debian.org/debian/pool/main/i/icu/libicu63_63.1-6+deb10u3_amd64.deb
+
 # Verify SHA256 checksum one-liner
 # Provided SHA256 hash is 38f65aaec4ee088f65330cf636c1cd6edef38109c80559836ecf38e2390a5761 at the time of writing this guide
+kali@kali:~$ [ "$(sha256sum libicu63_63.1-6+deb10u3_amd64.deb | cut -d ' ' -f1)" == "38f65aaec4ee088f65330cf636c1cd6edef38109c80559836ecf38e2390a5761" ] && echo '[+] SHA256 checksum OK' || echo "[-] SHA256 checksum mismatch"
 
-$ [ "$(sha256sum libicu63_63.1-6+deb10u3_amd64.deb | cut -d ' ' -f1)" == "38f65aaec4ee088f65330cf636c1cd6edef38109c80559836ecf38e2390a5761" ] && echo '[+] SHA256 checksum OK' || echo "[-] SHA256 checksum mismatch"
-
-$ sudo dpkg -i libicu63_63.1-6+deb10u3_amd64.deb
+kali@kali:~$ sudo apt install ./libicu63_63.1-6+deb10u3_amd64.deb
+kali@kali:~$ sudo apt update && sudo apt install libssl-dev libssl1.1
 ```
 #### *Note for future readers*
 I have archived the download page and package in case the link goes dead at any point
@@ -46,23 +50,23 @@ Credit to [@securingdev](https://github.com/securingdev) for bringing [this issu
 ```sh
 # NOTE: consider installing libgdiplus via apt to avoid seeing irrelevant ImportErrors
 #       related to the aspose library
-$ sudo apt install libgdiplus
+kali@kali:~$ sudo apt install libgdiplus
 
 # clone the repo into a directory of your choice
-$ git clone https://github.com/X0RW3LL/Minitrue.git
+kali@kali:~$ git clone https://github.com/X0RW3LL/Minitrue.git
 
 # cd into the repo after it's been cloned locally
-$ cd Minitrue
+kali@kali:~$ cd Minitrue
 
 # install package requirements inside the packages directory
-$ pip3 install -t packages/ -r requirements.txt
+kali@kali:~/Minitrue$ pip3 install -t packages/ -r requirements.txt
 
 # grant execute permissions to the script
-$ chmod +x minitrue
+kali@kali:~/Minitrue$ chmod +x minitrue
 ```
 ## Usage
 ```sh
-$ ./minitrue
+kali@kali:~/Minitrue$ ./minitrue
 ```
 
 ## Screenshots
@@ -81,11 +85,11 @@ $ ./minitrue
   - You may reach out via [Twitter](https://twitter.com/X0RW3LL) or Discord: `X0RW3LL#6548`
 
 ## Credits
-Special thanks to the entire Offensive-Security team, as well as the amazing community that's helped me through my journey :heart:
+Special thanks to the entire OffSec team, as well as the amazing community that's helped me through my journey :heart:
 
 ## Links
-[Offensive-Security Official Website](https://www.offensive-security.com)\
-[Offensive-Security Community Discord](https://offs.ec/discord)\
+[OffSec Official Website](https://www.offsec.com)\
+[OffSec Community Discord](https://offs.ec/discord)\
 [Kali Linux & Friends Discord](https://discord.kali.org/)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/F1F3EFYS1)
