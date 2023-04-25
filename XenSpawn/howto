@@ -1,0 +1,15 @@
+################################################################################################
+
+[+] Ubuntu 16.04 container spawned successfully. To boot up, use the following command:
+
+    root@kali:~# systemd-nspawn -M Xenial
+
+[!] To exit out of the container, simply type exit and hit Enter
+[!] Container size and location on disk: 435M   /var/lib/machines/Xenial
+[!] To remove the container from your system, use the following command:
+
+    root@kali:~# machinectl remove Xenial
+
+[!] You can always send a SIGKILL by pressing ^] three times within 1 second ( Ctrl + ]]] )
+
+################################################################################################

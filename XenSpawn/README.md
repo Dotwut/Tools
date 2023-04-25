@@ -1,5 +1,5 @@
 ## Description
-`spawn.sh` is a helper script/wrapper that automates spinning up a quick minimal build of Ubuntu 16.04 LTS (Xenial Xerus)
+`spawn.sh` is a helper script/wrapper that automates spinning up a quick minimal Ubuntu 16.04 LTS (Xenial Xerus) container
 
 ## Pretext
 If you've ever found yourself in a situation where you compiled an older kernel exploit on your Kali Linux and tested it on the target, only to be hit with an error that reads as follows
@@ -29,10 +29,13 @@ kali@kali:~/XenSpawn$ chmod +x spawn.sh
 kali@kali:~/XenSpawn$ sudo ./spawn.sh MACHINE_NAME
 
 # Starting the newly spawned container
+# Note: MACHINE_NAME is to be replaced with the machine name of choice
 kali@kali:~/XenSpawn$ sudo systemd-nspawn -M MACHINE_NAME
-Spawning container Xenial on /var/lib/machines/Xenial.
+
+Spawning container MACHINE_NAME on /var/lib/machines/MACHINE_NAME.
 Press ^] three times within 1s to kill container.
-root@MACHINE_NAME:~# exit
+
+root@MACHINE_NAME:~$ exit
 logout
 Container MACHINE_NAME exited successfully.
 ```
@@ -49,50 +52,44 @@ Ideally, we want to keep the files on the containers root directory for easy acc
 # Note: I edited the prompt to show $ instead of # for visibility
 root@kali:~$ cd /var/lib/machines/Xenial/root
 
-root@kali:/var/lib/machines/Xenial/root$ searchsploit -m 37292   
-  Exploit: Linux Kernel 3.13.0 < 3.19 (Ubuntu 12.04/14.04/14.10/15.04) - 'overlayfs' Local Privilege Escalation
-      URL: https://www.exploit-db.com/exploits/37292
-     Path: /usr/share/exploitdb/exploits/linux/local/37292.c
-File Type: C source, ASCII text, with very long lines (466)
-Copied to: /var/lib/machines/Xenial/root/37292.c
+root@kali:/var/lib/machines/Xenial/root$ searchsploit -m 40839
+
+  Exploit: Linux Kernel 2.6.22 < 3.9 - 'Dirty COW' 'PTRACE_POKEDATA' Race Condition Privilege Escalation (/etc/passwd Method)
+      URL: https://www.exploit-db.com/exploits/40839
+     Path: /usr/share/exploitdb/exploits/linux/local/40839.c
+    Codes: CVE-2016-5195
+ Verified: True
+File Type: C source, ASCII text
+Copied to: /var/lib/machines/compiler/root/40839.c
 
 root@kali:/var/lib/machines/Xenial/root$ systemd-nspawn -M Xenial
+
 Spawning container Xenial on /var/lib/machines/Xenial.
 Press ^] three times within 1s to kill container.
-root@Xenial:~$ gcc 37292.c -o exploit
-37292.c: In function ‘main’:
-37292.c:106:12: warning: implicit declaration of function ‘unshare’ [-Wimplicit-function-declaration]
-  106 |         if(unshare(CLONE_NEWUSER) != 0)
-      |            ^~~~~~~
-37292.c:111:17: warning: implicit declaration of function ‘clone’; did you mean ‘close’? [-Wimplicit-function-declaration]
-  111 |                 clone(child_exec, child_stack + (1024*1024), clone_flags, NULL);
-      |                 ^~~~~
-      |                 close
-37292.c:117:13: warning: implicit declaration of function ‘waitpid’ [-Wimplicit-function-declaration]
-  117 |             waitpid(pid, &status, 0);
-      |             ^~~~~~~
-37292.c:127:5: warning: implicit declaration of function ‘wait’ [-Wimplicit-function-declaration]
-  127 |     wait(NULL);
-      |     ^~~~
+
+root@Xenial:~$ gcc -pthread 40839.c -o dirty -lcrypt
+
 root@Xenial:~$ exit
 logout
 Container Xenial exited successfully.
 
 root@kali:/var/lib/machines/Xenial/root$ python -m http.server 80
+
 Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
-192.168.1.20 - - "GET /exploit HTTP/1.1" 200 -
+192.168.1.20 - - "GET /dirty HTTP/1.1" 200 -
 ```
 
 [![poc.png](https://i.postimg.cc/VvZRdbcD/poc.png)](https://postimg.cc/2LvvtyyZ)
 
 ## Tests
 
-Currently, the following exploits (compiled with this solution) have been tested
+Currently, the following exploits (compiled with this solution) have been tested:
 
 |Exploit|Kernel|Status|
 |:--:|:--:|:--:|
 |[9542](https://www.exploit-db.com/exploits/9542)|2.6 < 2.6.19 (32bit)|**OK**|
 |[37292](https://www.exploit-db.com/exploits/37292)|3.13.0 < 3.19|**OK**|
+|[40839](https://www.exploit-db.com/exploits/40839)|2.6.22 < 3.9|**OK**|
 |[44298](https://www.exploit-db.com/exploits/44298)|4.4.0-116-generic|**OK**|
 |[CVE-2021-4034](https://github.com/berdav/CVE-2021-4034)|------|**OK**|
 
@@ -120,15 +117,15 @@ By all means, you can use whichever preferred setup that works best for you. I p
 The killswitch for sending a SIGKILL is `Ctrl + ]]]`
 
 ## Credits
-This would not have been made possible without the constant help and patience of [@steev](https://gitlab.com/steev), the Kali dev team, and Offensive-Security
+This would not have been made possible without the constant help and patience of [@steev](https://gitlab.com/steev), the Kali dev team, and OffSec
 
 ## References
 [Script inspiration](https://gist.github.com/sfan5/52aa53f5dca06ac3af30455b203d3404)\
 [Walkthrough and gotchas](https://medium.com/@huljar/setting-up-containers-with-systemd-nspawn-b719cff0fb8d)
 
 ## Links
-[Offensive-Security Official Website](https://www.offensive-security.com)\
-[Offensive-Security Community Discord](https://offs.ec/discord)\
+[OffSec Official Website](https://www.offsec.com)\
+[OffSec Community Discord](https://offs.ec/discord)\
 [Kali Linux & Friends Discord](https://discord.kali.org)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/F1F3EFYS1)
