@@ -1,7 +1,11 @@
 #My Aliases
+ftpsrv () {
+  IFACE=$(ip -c -br a show tun0 | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
+  python3 -m python_ftp_server -d ./ -u dotwut -p Jhart1992 --ip "$IFACE" --port 21
+}
 alias pysrv='python3 -m http.server 80'
+alias smbsrv='sudo impacket-smbserver smb ./ -smb2support'
 alias thmvpn='sudo openvpn /home/jason/Downloads/jhart1992.ovpn'
-alias smbsrv='sudo impacket-smbserver smb /home/jason/Tools -smb2support'
 alias sshforward="echo 'Local Port Forward:\n ssh -L [LOCAL_IP:]LOCAL_PORT:DESTINATION:DESTINATION_PORT [USER@]SSH_SERVER\nRemote Port Forward:\n ssh -R [REMOTE:]REMOTE_PORT:DESTINATION:DESTINATION_PORT [USER@]SSH_SERVER\nDynamic Port Forward:\n ssh -D [LOCAL_IP:]LOCAL_PORT [USER@]SSH_SERVER'"
 alias gosmall="gobuster dir -t 50 --wordlist=/usr/share/wordlists/dirb/common.txt -u"
 alias gobig="gobuster dir -t 50 --wordlist=/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u"
