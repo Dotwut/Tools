@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[92],{1761:function(n,t,e){"use strict";e.r(t);var c={fetch:function(){this.$router.push("/projects/")}},o=e(20),component=Object(o.a)(c,(function(){return(0,this._self._c)("div")}),[],!1,null,null,null);t.default=component.exports}}]);
+//# sourceMappingURL=e2e2a15.js.map
