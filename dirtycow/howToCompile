@@ -1,0 +1,7 @@
+For 40847.cpp
+	https://www.exploit-db.com/exploits/40847
+	Compile:   g++ -Wall -pedantic -O2 -std=c++11 -pthread -o dcow 40847.cpp -lutil
+
+For 40839.c
+	https://www.exploit-db.com/exploits/40839
+	Compile:   gcc -pthread dirty.c -o dirty -lcrypt

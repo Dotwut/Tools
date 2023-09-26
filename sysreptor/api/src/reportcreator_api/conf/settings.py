@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from datetime import timedelta
-from decouple import config
+from decouple import config, Csv
 from pathlib import Path
 import json
 from urllib.parse import urljoin
@@ -190,8 +190,27 @@ if OIDC_AZURE_CLIENT_ID and OIDC_AZURE_CLIENT_SECRET and OIDC_AZURE_TENANT_ID:
                 'scope': 'openid email profile',
                 'code_challenge_method': 'S256',
             },
+            'reauth_supported': True,
         },
     }
+
+OIDC_GOOGLE_CLIENT_ID = config('OIDC_GOOGLE_CLIENT_ID', default=None)
+OIDC_GOOGLE_CLIENT_SECRET = config('OIDC_GOOGLE_CLIENT_SECRET', default=None)
+if OIDC_GOOGLE_CLIENT_ID and OIDC_GOOGLE_CLIENT_SECRET:
+    AUTHLIB_OAUTH_CLIENTS |= {
+        'google': {
+            'label': 'Google',
+            'client_id': OIDC_GOOGLE_CLIENT_ID,
+            'client_secret': OIDC_GOOGLE_CLIENT_SECRET,
+            'server_metadata_url': 'https://accounts.google.com/.well-known/openid-configuration',
+            'client_kwargs': {
+                'scope': 'openid email profile',
+                'code_challenge_method': 'S256',
+            },
+            'reauth_supported': False,
+        }
+    }
+
 if oidc_config := config('OIDC_AUTHLIB_OAUTH_CLIENTS', cast=json.loads, default="{}"):
     AUTHLIB_OAUTH_CLIENTS |= oidc_config
 
@@ -385,6 +404,7 @@ CELERY_WORKER_HIJACK_ROOT_LOGGER=False
 CELERY_WORKER_SEND_TASK_EVENTS = False
 CELERY_TASK_TIME_LIMIT = 60 * 5
 CELERY_TASK_SOFT_TIME_LIMIT = 60 * 5 + 10
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 # Execute tasks locally, if no broker is configured
 CELERY_TASK_ALWAYS_EAGER = not CELERY_BROKER_URL
@@ -451,7 +471,7 @@ HEALTH_CHECKS = {
 
 # Notifications
 VERSION = config('VERSION', default='dev')
-INSTANCE_TAGS = config('INSTANCE_TAGS', default='on-premise').split(';')
+INSTANCE_TAGS = config('INSTANCE_TAGS', cast=Csv(delimiter=';'), default='on-premise')
 NOTIFICATION_IMPORT_URL = config('NOTIFICATION_IMPORT_URL', default='https://cloud.sysreptor.com/api/v1/notifications/')
 
 
@@ -462,6 +482,10 @@ LICENSE_VALIDATION_KEYS = [
     {'id': 'silver', 'algorithm': 'ed25519', 'key': 'MCowBQYDK2VwAyEAwu/cl0CZSSBFOzFSz/hhUQQjHIKiT4RS3ekPevSKn7w='},
 ]
 LICENSE_COMMUNITY_MAX_USERS = 3
+
+
+# Languages
+PREFERRED_LANGUAGES = config('PREFERRED_LANGUAGES', cast=Csv(), default=None)
 
 
 # Elastic APM

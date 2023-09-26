@@ -51,17 +51,26 @@ class MessageLocationInfo:
 @dataclasses.dataclass
 class ErrorMessage:
     level: MessageLevel
-    location: MessageLocationInfo
     message: str
     details: Optional[str] = None
+    location: Optional[MessageLocationInfo] = None
 
     def to_dict(self):
         return dataclasses.asdict(self) | {
             'level': self.level.value,
             'location': dataclasses.asdict(self.location) | {
               'type': self.location.type.value,
-            },
+            } if self.location else None,
         }
+    
+    @classmethod
+    def from_dict(cls, data):
+        location = data.get('location')
+        return cls(**data | {
+            'level': MessageLevel(data.get('level')),
+            'location': MessageLocationInfo(**location | {'type': MessageLocationType(location.get('type'))}) if location else None,
+        })
+
 
 
 def format_messages(lst: list[ErrorMessage]):

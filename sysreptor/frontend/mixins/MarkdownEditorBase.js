@@ -23,6 +23,10 @@ export default {
       type: Function,
       default: null,
     },
+    rewriteReferenceLink: {
+      type: Function,
+      default: null,
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -49,7 +53,8 @@ export default {
     },
     spellcheckEnabled() {
       return this.lang !== null && !this.disabled && 
-        this.$store.state.settings.spellcheckEnabled && this.$store.getters['apisettings/settings'].features.spellcheck;
+        this.$store.state.settings.spellcheckEnabled && this.$store.getters['apisettings/settings'].features.spellcheck &&
+        this.$store.getters['apisettings/settings'].languages.find(l => l.code === this.lang)?.spellcheck;
     },
   },
   watch: {
@@ -184,7 +189,7 @@ export default {
       }
     },
     async performSpellcheckRequest(data) {
-      if (!this.lang || !data) {
+      if (!this.spellcheckEnabled || !data) {
         return {
           matches: []
         };
