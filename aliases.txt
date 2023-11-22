@@ -11,6 +11,8 @@ alias gosmall="gobuster dir -t 50 --wordlist=/usr/share/wordlists/dirb/common.tx
 alias gobig="gobuster dir -t 50 --wordlist=/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u"
 alias gosub="gobuster vhost -t 50 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt --append-domain -u"
 alias godns="gobuster dns -t 50 --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -d"
+alias ferox="feroxbuster --redirects --depth 3 --wordlist=/usr/share/wordlists/dirb/big.txt --collect-extensions --collect-words --extensions php,js,txt,zip,py,log --filter-status 404 --output ferox_scan.txt --url"
+alias feroxbig="feroxbuster --redirects --depth 3 --wordlist=/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt --collect-extensions --collect-words --extensions php,js,txt,asp,aspx,zip,py,log --filter-status 404 --output ferox_scan.txt --url"
 
 alias .1='cd ..' # see .. function
 alias .2='.. 2'
